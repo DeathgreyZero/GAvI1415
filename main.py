@@ -58,9 +58,3 @@ tweet = tweet.lower()
 print tweet
 print classifier.classify(extract_features(tweet.split()))
 
-
-from Tkinter import *
-finestra = Tk()
-finestra.geometry('300x300')
-finestra.title('GAvI Project')
-finestra.mainloop()
