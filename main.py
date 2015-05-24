@@ -58,3 +58,4 @@ tweet = tweet.lower()
 print tweet
 print classifier.classify(extract_features(tweet.split()))
 
+print "prova"
