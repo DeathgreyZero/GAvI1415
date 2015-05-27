@@ -1,8 +1,28 @@
 import nltk
 import nltk.classify.util
 import nltk.metrics
-
 from nltk.corpus import stopwords
+
+# Connessione SQLite3
+import sqlite3
+conn = sqlite3.connect('tweets.db')
+
+# Creazione della tupla per i tweets positivi estrapolando le frasi dal DB
+positive_phrase = conn.execute('SELECT * FROM positive_tweets ORDER BY id')
+pos_tweets = []
+for row in positive_phrase:
+    pos_tweets.append((row[1],'positive'))
+# Test di stampa
+print pos_tweets
+
+# Creazione della tupla per i tweets negativi estrapolando le frasi dal DB
+negative_phrase = conn.execute('SELECT * FROM negative_tweets ORDER BY id')
+neg_tweets = []
+for row in negative_phrase:
+    neg_tweets.append((row[1],'negative'))
+# Test di stampa
+print neg_tweets
+
 
 
 # Dato un insieme di tweets(training set) ritorna una lista
@@ -34,21 +54,6 @@ def extract_features(document):
     return features
 
 
-pos_tweets = [('I love this car', 'positive'),
-              ('It will be easy', 'positive'),
-              ('This view is amazing', 'positive'),
-              ('I feel great this morning', 'positive'),
-              ('I am so excited about the concert', 'positive'),
-              ('He is my best friend', 'positive')]
-
-neg_tweets = [('I do not like this car', 'negative'),
-              ('This view is horrible', 'negative'),
-              ('It will not be easy', 'negative'),
-              ('I hate this car', 'negative'),
-              ('I feel tired this morning', 'negative'),
-              ('I am not looking forward to the concert', 'negative'),
-              ('He is my enemy', 'negative')]
-
 if __name__ == "__main__":
     # Creazione di una lista contenente un array di parole prive di stopwords
     # con accanto la classificazione positivo/negativo
@@ -68,7 +73,7 @@ if __name__ == "__main__":
     training_set = nltk.classify.apply_features(extract_features, test_tweets)
     classifier = nltk.NaiveBayesClassifier.train(training_set)
 
-    tweet = 'The beer is good'.lower()
+    tweet = 'this beer is good'.lower()
 
     prob_t = classifier.prob_classify(extract_features(tweet.split()))
 
