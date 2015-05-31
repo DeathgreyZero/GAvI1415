@@ -1,6 +1,7 @@
 import nltk
 import nltk.classify.util
 import nltk.metrics
+import sys
 from nltk.corpus import stopwords
 
 # Connessione SQLite3
@@ -11,17 +12,17 @@ conn = sqlite3.connect('tweets.db')
 positive_phrase = conn.execute('SELECT * FROM positive_tweets ORDER BY id')
 pos_tweets = []
 for row in positive_phrase:
-    pos_tweets.append((row[1],'positive'))
+    pos_tweets.append((row[1], 'positive'))
 # Test di stampa
-print pos_tweets
+#print pos_tweets
 
 # Creazione della tupla per i tweets negativi estrapolando le frasi dal DB
 negative_phrase = conn.execute('SELECT * FROM negative_tweets ORDER BY id')
 neg_tweets = []
 for row in negative_phrase:
-    neg_tweets.append((row[1],'negative'))
+    neg_tweets.append((row[1], 'negative'))
 # Test di stampa
-print neg_tweets
+#print neg_tweets
 
 
 
@@ -73,11 +74,32 @@ if __name__ == "__main__":
     training_set = nltk.classify.apply_features(extract_features, test_tweets)
     classifier = nltk.NaiveBayesClassifier.train(training_set)
 
-    tweet = 'this beer is good'.lower()
+    tweet = 'If you can change your mind, you can change your life.'
+    tweet.lower()
 
     prob_t = classifier.prob_classify(extract_features(tweet.split()))
+    sent = prob_t.max()
 
     print tweet
-    print "Classificazione:", prob_t.max()
+    print "Classificazione:", sent
     print "Tweet positivo al", round(prob_t.prob('positive'), 2)*100, "%"
     print "Tweet negativo al", round(prob_t.prob('negative'), 2)*100, "%"
+
+    print "Classificazione corretta?"
+
+    conf = sys.stdin.readline().lower().rstrip("\n")
+
+    if conf in ['yes', 'y', 'yep', 'si', 's']:
+        if sent == "positive":
+            conn.execute('INSERT INTO positive_tweets (text) VALUES ("%s")' % tweet)
+        else:
+            conn.execute('INSERT INTO negative_tweets (text) VALUES ("%s")' % tweet)
+        conn.commit()
+    elif conf in ['no', 'n', 'nope']:
+        if sent == "positive":
+            conn.execute('INSERT INTO negative_tweets (text) VALUES ("%s")' % tweet)
+        else:
+            conn.execute('INSERT INTO positive_tweets (text) VALUES ("%s")' % tweet)
+        conn.commit()
+    else:
+        print "Scelta errata, tweet non inserito nel database"
