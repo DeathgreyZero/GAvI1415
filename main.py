@@ -102,4 +102,4 @@ if __name__ == "__main__":
             conn.execute('INSERT INTO positive_tweets (text) VALUES ("%s")' % tweet)
         conn.commit()
     else:
-        print "Scelta errata, tweet non inserito nel database"
+        print "Scelta errata, tweet non inserito nel db"
