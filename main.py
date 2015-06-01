@@ -74,7 +74,7 @@ if __name__ == "__main__":
     training_set = nltk.classify.apply_features(extract_features, test_tweets)
     classifier = nltk.NaiveBayesClassifier.train(training_set)
 
-    tweet = 'If you can change your mind, you can change your life.'
+    tweet = 'The discontent and frustration that you feel is entirely your own creation.'
     tweet.lower()
 
     prob_t = classifier.prob_classify(extract_features(tweet.split()))
