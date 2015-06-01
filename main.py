@@ -2,6 +2,7 @@ import nltk
 import nltk.classify.util
 import nltk.metrics
 import sys
+from yattag import Doc, indent
 from nltk.corpus import stopwords
 
 # Connessione SQLite3
@@ -74,7 +75,9 @@ if __name__ == "__main__":
     training_set = nltk.classify.apply_features(extract_features, test_tweets)
     classifier = nltk.NaiveBayesClassifier.train(training_set)
 
-    tweet = 'The discontent and frustration that you feel is entirely your own creation.'
+    # Gestire l'input dell'applicazione
+    print "Inserire il tweet da valutare"
+    tweet = sys.stdin.readline().rstrip("\n")
     tweet.lower()
 
     prob_t = classifier.prob_classify(extract_features(tweet.split()))
@@ -85,21 +88,50 @@ if __name__ == "__main__":
     print "Tweet positivo al", round(prob_t.prob('positive'), 2)*100, "%"
     print "Tweet negativo al", round(prob_t.prob('negative'), 2)*100, "%"
 
-    print "Classificazione corretta?"
+    print "Inserire il tweet nel DB? [y/n]"
+    ins = sys.stdin.readline().lower().rstrip("\n")
 
-    conf = sys.stdin.readline().lower().rstrip("\n")
+    if ins in ['yes', 'y', 'si', 's']:
+        print "La classificazione e corretta?"
+        conf = sys.stdin.readline().lower().rstrip("\n")
 
-    if conf in ['yes', 'y', 'yep', 'si', 's']:
-        if sent == "positive":
-            conn.execute('INSERT INTO positive_tweets (text) VALUES ("%s")' % tweet)
+        if conf in ['yes', 'y', 'si', 's']:
+            if sent == "positive":
+                conn.execute('INSERT INTO positive_tweets (text) VALUES ("%s")' % tweet)
+            else:
+                conn.execute('INSERT INTO negative_tweets (text) VALUES ("%s")' % tweet)
+            conn.commit()
+        elif conf in ['no', 'n', 'nope']:
+            if sent == "positive":
+                conn.execute('INSERT INTO negative_tweets (text) VALUES ("%s")' % tweet)
+            else:
+                conn.execute('INSERT INTO positive_tweets (text) VALUES ("%s")' % tweet)
+            conn.commit()
         else:
-            conn.execute('INSERT INTO negative_tweets (text) VALUES ("%s")' % tweet)
-        conn.commit()
-    elif conf in ['no', 'n', 'nope']:
-        if sent == "positive":
-            conn.execute('INSERT INTO negative_tweets (text) VALUES ("%s")' % tweet)
-        else:
-            conn.execute('INSERT INTO positive_tweets (text) VALUES ("%s")' % tweet)
-        conn.commit()
+            print "Scelta errata, il tweet non e stato inserito nel DB."
     else:
-        print "Scelta errata, tweet non inserito nel db"
+        print "Tweet non inserito nel DB."
+
+    # Output in XML
+    doc, tag, text = Doc().tagtext()
+
+    with tag('classification'):
+        with tag('tweet'):
+            with tag('text'):
+                text(tweet)
+            with tag('sentiment'):
+                text(sent)
+            with tag('negative'):
+                text(str(round(prob_t.prob('negative'), 2)*100))
+            with tag('positive'):
+                text(str(round(prob_t.prob('positive'), 2)*100))
+
+    result = indent(
+        doc.getvalue(),
+        indentation='\t',
+        newline='\r\n'
+    )
+
+    out_file = open("classification.xml", "w")
+    out_file.write(result)
+    out_file.close()
