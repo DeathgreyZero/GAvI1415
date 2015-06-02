@@ -1,0 +1,80 @@
+classification{
+	background-color: white;
+	width: 40%;
+	float: left;
+	clear: both;
+}
+
+tweet{
+	background-color: #E1E1E1;
+	width: 100%;
+	height: 100%;
+	margin-left: 10%;
+	margin-right: 10%;
+	float: left;
+	clear: both;
+}
+
+title{
+	background-color: grey;
+	color: white;
+	font-family: sans;
+	font-weight: bold;
+	text-align: center;
+	width: 98.4%;
+	padding: 0.8%;
+	margin-left: 10%;
+	margin-right: 10%;
+	float: left;
+	clear: both;
+}
+
+text{
+	background-color: white;
+	border: 1px solid grey;
+	width: 50%;
+	height: 15em;
+	padding: 0.8%;
+	margin-top: 0.5%;
+	margin-bottom: 2%;
+	float: left;
+	clear: both;
+}
+
+sentiment{
+	float: left;
+	clear: both;
+	font-weight: bold;
+	margin-left: 0.8%;
+	margin-bottom: 2%;
+}
+
+positive{
+	background-image: url("img/a.png");
+	background-repeat: no-repeat;
+	background-position: left;
+	float: left;
+	clear: both;
+	font-weight: bold;
+	padding-top: 2.5%;
+	padding-left: 6.5%;
+	margin-right: 4px;
+}
+
+negative{
+        background-image: url("img/b.png");
+        background-repeat: no-repeat;
+        background-position: left;
+        float: left;
+        clear: both;
+        font-weight: bold;
+        padding-top: 2.5%;
+        padding-left: 6.5%;
+        margin-right: 4px;
+}
+
+score{
+	float: left;
+	font-weight: bold;
+	padding-top: 2.5%;
+}
