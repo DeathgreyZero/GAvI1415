@@ -1,6 +1,7 @@
 import nltk
 import nltk.classify.util
 import nltk.metrics
+import webbrowser
 import sys
 from yattag import Doc, indent
 from nltk.corpus import stopwords
@@ -116,22 +117,34 @@ if __name__ == "__main__":
     doc, tag, text = Doc().tagtext()
 
     with tag('classification'):
+        with tag('title'):
+            text('Machine Learning Sentiment Analysis Application')
         with tag('tweet'):
             with tag('text'):
                 text(tweet)
             with tag('sentiment'):
-                text(sent)
+                text('Classification: ' + sent + ' tweet')
             with tag('negative'):
-                text(str(round(prob_t.prob('negative'), 2)*100))
+                text('This tweet is negative to')
+            with tag('score'):
+                text(str(round(prob_t.prob('negative'), 2) * 100) + '%')
             with tag('positive'):
-                text(str(round(prob_t.prob('positive'), 2)*100))
+                text('This tweet is positive to')
+            with tag('score'):
+                text(str(round(prob_t.prob('positive'), 2) * 100) + '%')
 
     result = indent(
         doc.getvalue(),
         indentation='\t',
-        newline='\r\n'
+        newline='\n'
     )
+
+    result = '<?xml version="1.0" encoding="UTF-8"?>\n' + \
+             '<?xml-stylesheet type="text/css" href="css/classification.css"?>\n'.__add__(result)
 
     out_file = open("classification.xml", "w")
     out_file.write(result)
     out_file.close()
+
+    url = "classification.xml"
+    webbrowser.open(url)

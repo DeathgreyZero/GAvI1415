@@ -1,8 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="css/classification.css"?>
 <classification>
+	<title>Machine Learning Sentiment Analysis Application</title>
 	<tweet>
-		<text>Positive thinking will let you do everything better than negative thinking will.</text>
-		<sentiment>positive</sentiment>
-		<negative>0.0</negative>
-		<positive>100.0</positive>
+		<text>I do not really like this work</text>
+		<sentiment>Classification: negative tweet</sentiment>
+		<negative>This tweet is negative to</negative>
+		<score>100.0%</score>
+		<positive>This tweet is positive to</positive>
+		<score>0.0%</score>
 	</tweet>
 </classification>

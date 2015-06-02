@@ -1,21 +1,23 @@
 <?xml version="1.0" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema 	attributeFormDefault="unqualified" 
+		elementFormDefault="qualified" 
+		xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 <xs:element name="classification">
 	<xs:complexType>
 		<xs:sequence>
-			<xs:element ref="tweet"/>
-		</xs:sequence>
-	</xs:complexType>
-</xs:element>
-
-<xs:element name="tweet">
-	<xs:complexType>
-		<xs:sequence>
-			<xs:element name="text" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="sentiment" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="negative" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="positive" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+			<xs:element type="xs:string" name="title"/>
+			<xs:element name="tweet">
+				<xs:complexType>
+					<xs:choice maxOccurs="unbounded" minOccurs="0">
+						<xs:element type="xs:string" name="text"/>
+						<xs:element type="xs:string" name="sentiment"/>
+						<xs:element type="xs:string" name="negative"/>
+						<xs:element type="xs:string" name="score"/>
+						<xs:element type="xs:string" name="positive"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 </xs:element>
