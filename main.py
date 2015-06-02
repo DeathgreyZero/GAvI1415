@@ -84,34 +84,10 @@ if __name__ == "__main__":
     prob_t = classifier.prob_classify(extract_features(tweet.split()))
     sent = prob_t.max()
 
-    print tweet
-    print "Classificazione:", sent
-    print "Tweet positivo al", round(prob_t.prob('positive'), 2)*100, "%"
-    print "Tweet negativo al", round(prob_t.prob('negative'), 2)*100, "%"
-
-    print "Inserire il tweet nel DB? [y/n]"
-    ins = sys.stdin.readline().lower().rstrip("\n")
-
-    if ins in ['yes', 'y', 'si', 's']:
-        print "La classificazione e corretta?"
-        conf = sys.stdin.readline().lower().rstrip("\n")
-
-        if conf in ['yes', 'y', 'si', 's']:
-            if sent == "positive":
-                conn.execute('INSERT INTO positive_tweets (text) VALUES ("%s")' % tweet)
-            else:
-                conn.execute('INSERT INTO negative_tweets (text) VALUES ("%s")' % tweet)
-            conn.commit()
-        elif conf in ['no', 'n', 'nope']:
-            if sent == "positive":
-                conn.execute('INSERT INTO negative_tweets (text) VALUES ("%s")' % tweet)
-            else:
-                conn.execute('INSERT INTO positive_tweets (text) VALUES ("%s")' % tweet)
-            conn.commit()
-        else:
-            print "Scelta errata, il tweet non e stato inserito nel DB."
-    else:
-        print "Tweet non inserito nel DB."
+    #print tweet
+    #print "Classificazione:", sent
+    #print "Tweet positivo al", round(prob_t.prob('positive'), 2)*100, "%"
+    #print "Tweet negativo al", round(prob_t.prob('negative'), 2)*100, "%"
 
     # Output in XML
     doc, tag, text = Doc().tagtext()
@@ -148,3 +124,26 @@ if __name__ == "__main__":
 
     url = "classification.xml"
     webbrowser.open(url)
+    print "Inserire il tweet nel DB? [y/n]"
+    ins = sys.stdin.readline().lower().rstrip("\n")
+
+    if ins in ['yes', 'y', 'si', 's']:
+        print "La classificazione e corretta? [y/n]"
+        conf = sys.stdin.readline().lower().rstrip("\n")
+
+        if conf in ['yes', 'y', 'si', 's']:
+            if sent == "positive":
+                conn.execute('INSERT INTO positive_tweets (text) VALUES ("%s")' % tweet)
+            else:
+                conn.execute('INSERT INTO negative_tweets (text) VALUES ("%s")' % tweet)
+            conn.commit()
+        elif conf in ['no', 'n', 'nope']:
+            if sent == "positive":
+                conn.execute('INSERT INTO negative_tweets (text) VALUES ("%s")' % tweet)
+            else:
+                conn.execute('INSERT INTO positive_tweets (text) VALUES ("%s")' % tweet)
+            conn.commit()
+        else:
+            print "Scelta errata, il tweet non e stato inserito nel DB."
+    else:
+        print "Tweet non inserito nel DB."
