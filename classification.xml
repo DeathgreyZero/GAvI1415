@@ -3,11 +3,11 @@
 <classification>
 	<title>Machine Learning Sentiment Analysis Application</title>
 	<tweet>
-		<text>FMA Brotherhood is an anime that needs no introduction. This is the highest rated anime on all of MAL. This is the anime that the current generation of anime fans holds above all others as the greatest single anime EVER made! In the following paragraphs, I will be reviewing this legendary series and discussing whether or not it truly deserves this title.</text>
-		<sentiment>Classification: positive tweet</sentiment>
+		<text>It breaks my heart to see how much evil is out there, how can anyone harm</text>
+		<sentiment>Classification: negative tweet</sentiment>
 		<negative>This tweet is negative to</negative>
-		<score>39.0%</score>
+		<score>100.0%</score>
 		<positive>This tweet is positive to</positive>
-		<score>61.0%</score>
+		<score>0.0%</score>
 	</tweet>
 </classification>
