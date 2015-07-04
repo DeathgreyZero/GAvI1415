@@ -122,8 +122,11 @@ if __name__ == "__main__":
     out_file.write(result)
     out_file.close()
 
-    url = "classification.xml"
-    webbrowser.open(url)
+    import os
+    url =  os.path.realpath("classification.xml")
+    webbrowser.open_new_tab('file:///'+url)
+
+
     print "Inserire il tweet nel DB? [y/n]"
     ins = sys.stdin.readline().lower().rstrip("\n")
 

@@ -3,11 +3,11 @@
 <classification>
 	<title>Machine Learning Sentiment Analysis Application</title>
 	<tweet>
-		<text>It breaks my heart to see how much evil is out there, how can anyone harm</text>
-		<sentiment>Classification: negative tweet</sentiment>
+		<text>your job is great</text>
+		<sentiment>Classification: positive tweet</sentiment>
 		<negative>This tweet is negative to</negative>
-		<score>100.0%</score>
+		<score>5.0%</score>
 		<positive>This tweet is positive to</positive>
-		<score>0.0%</score>
+		<score>95.0%</score>
 	</tweet>
 </classification>
