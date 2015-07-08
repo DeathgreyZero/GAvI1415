@@ -1,6 +1,6 @@
 import nltk
-import nltk.classify.util
-import nltk.metrics
+from nltk.classify.util import *
+from nltk.metrics import *
 import webbrowser
 import sys
 from yattag import Doc, indent
@@ -81,7 +81,14 @@ if __name__ == "__main__":
     tweet = sys.stdin.readline().rstrip("\n")
     tweet.lower()
 
-    prob_t = classifier.prob_classify(extract_features(tweet.split()))
+    tokens = nltk.word_tokenize(tweet)
+    #print tokens
+    for t in tokens:
+        if t in stopwords.words('english'):
+            tokens.remove(t)
+    #print tokens
+
+    prob_t = classifier.prob_classify(extract_features(tokens))
     sent = prob_t.max()
 
     #print tweet
